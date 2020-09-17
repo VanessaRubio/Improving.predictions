@@ -1,4 +1,4 @@
-@@ -0,0 +1,181 @@
+
 ### GROWTH ####
 
 rm(list = ls())
@@ -13,7 +13,6 @@ growth_transf= subset(initial, !is.na(ca2)) #deletes the species that do not hav
 growth_transf = subset(growth_transf, !is.na(RGR)) #deletes the NAs RGR of new individuals in census 2011
 growth_transf = subset(growth_transf, RGR>=0) 
 growth_transf$RGR = growth_transf$RGR+1
-growth_transf = subset(growth_transf,TNCI >0 )
 
 growth_transf$log_ca2 = log(growth_transf$ca2)
 growth_transf$log_ca2 = scale(growth_transf$log_ca2)   #crown area
