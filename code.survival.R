@@ -1,4 +1,4 @@
-@@ -0,0 +1,248 @@
+
 ### SURVIVAL ####
 ##############
 rm(list = ls())
@@ -11,7 +11,6 @@ survival = fread("~/Data.txt")
 initial = as.data.frame(survival)
 survival_transf = subset(initial, !is.na(ca2)) #canopy
 survival_transf = subset(survival_transf,!is.na(survival))
-survival_transf = subset(survival_transf,TNCI >0 ) #total neighborhood index
 
 survival_transf$RGR = NULL
 survival_transf$log_ca2 = log(survival_transf$ca2)
