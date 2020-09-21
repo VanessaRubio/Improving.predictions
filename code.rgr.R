@@ -99,12 +99,17 @@ m2 = lmer(data = growth_transf, RGR ~ mp + TNCI + (1|quad) + (1|species))
 
 w = Weights(c(AIC(m1),AIC(m2)))
 
+#average model for rgr
+lista1 = list(m1,m2)
+av1 = model.avg(lista1)
+summary(av1)
+
 
 #### Prediction graph: predicted vs observed
 rgr = unscale(growth_transf$RGR,scale.RGR)
 rgr = exp(rgr)
 
-pred.1 = predict(m1, growth_transf, type = "response")
+pred.1 = predict(av1, growth_transf, type = "response")
 ps1 = unscale(pred.1,scale.RGR)
 ps1 = exp(ps1)
 
@@ -115,17 +120,15 @@ legend(0.988,1.24, inset = c(0, 1), c("r = 0.47","p-value <0.001"),bty = "n", xp
 
 ## Model plotting
 
-  ci = confint(m2,parm="beta_",method="Wald")
-  coefs = data.frame(coef(summary(m1)))
-  
-  estimate<-c(coefs[3,1],coefs[2,1], coefs[4,1])
-  up<-c(coefs[3,1]+1.96*coefs[3,2],coefs[2,1]+1.96*coefs[2,2],coefs[4,1]+1.96*coefs[4,2])
-  lo<-c(coefs[3,1]-1.96*coefs[3,2],coefs[2,1]-1.96*coefs[2,2],coefs[4,1]-1.96*coefs[4,2])
-  
-  l = 3
-  odds = estimate 
-  index =  l:1
-  parameters = c("WD","Mp" ,"NCI") 
+  estimates = c(-0.1609334,-0.1362918,-0.08569011)
+se = c(0.0117389646809775,0.0654523327434495,0.00983020672948411)
+up = estimates+(1.96*se)
+lo = estimates-(1.96*se)
+l = 3
+index =  l:1
+parameters = c("Mp","WD" ,"NCI") 
+odds = estimates
+
 
   plot(y = index, x = c(-0.5,0,0.5) , cex=0.9, xlab="", ylab=" ", yaxt="n", xaxt="n", xlim=c(-0.5,0.5), ylim=c(0.7, 3.5), type="n" )
   axis(side=2, at=l:1, labels=parameters, cex.axis=0.9)
